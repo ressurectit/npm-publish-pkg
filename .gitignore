@@ -1,5 +1,6 @@
 *~
 *.d.ts
 *.js
-!/typings/tsd.d.ts
+*.map
 !/typings/command-line-args/command-line-args.d.ts
+/node_modules

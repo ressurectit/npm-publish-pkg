@@ -1,5 +1,10 @@
 declare module "command-line-args" 
 {
-    function xxx();
-    export = xxx;
+    interface ICommandLineArgs
+    {
+        (data: string): void;
+    }
+    
+    var _tmp: ICommandLineArgs;
+    export = _tmp;
 }
