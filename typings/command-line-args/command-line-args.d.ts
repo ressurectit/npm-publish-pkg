@@ -1,21 +1,7 @@
+/// <reference path="../command-line-usage/command-line-usage.d.ts" />
+
 declare module "command-line-args" 
 {
-    interface IOptionDefinition
-    {
-        /**
-         * Name of argument in command line
-         */
-        name: string;
-        type?: Function;
-        alias?: string;
-        multiple?: boolean;
-        defaultOption?: boolean;
-        defaultValue?: any;
-        group?: string|string[];
-        description?: string;
-        typeLabel?: string;
-    }
-    
     interface ICommandLineArgs
     {
         /**
@@ -30,7 +16,7 @@ declare module "command-line-args"
          * @param  {any} options? TODO not finished this yet
          * @returns string
          */
-        getUsage(options?: any): string;
+        getUsage(options?: IUsageOptions): string;
     }
     
     interface ICommandLineArgsStatic

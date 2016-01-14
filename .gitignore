@@ -3,4 +3,5 @@
 *.js
 *.map
 !/typings/command-line-args/command-line-args.d.ts
+!/typings/command-line-usage/command-line-usage.d.ts
 /node_modules

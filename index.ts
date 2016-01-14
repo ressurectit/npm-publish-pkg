@@ -1,4 +1,4 @@
-export default function test()
+export interface IHelpObject
 {
-    
+    help: boolean;
 }
