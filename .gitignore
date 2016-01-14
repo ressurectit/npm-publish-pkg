@@ -1,3 +1,5 @@
 *~
 *.d.ts
 *.js
+!/typings/tsd.d.ts
+!/typings/command-line-args/command-line-args.d.ts
