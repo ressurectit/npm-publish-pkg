@@ -1,5 +1,6 @@
 import * as commandLineArgs from "command-line-args";
 import * as fs from "fs";
+import * as childProcess from "child_process";
 
 export interface IHelpObject
 {
@@ -25,7 +26,7 @@ export function processArguments(): IHelpObject
 
     var args: IHelpObject = <IHelpObject>cli.parse();
 
-    if(args.help === true)
+    if(args.help)
     {
         console.log(cli.getUsage(
         {
@@ -70,9 +71,22 @@ export function processArguments(): IHelpObject
     return args;
 }
 
+export function publishPackage(args: IHelpObject): void
+{
+    var command: string = "npm publish";
+    
+    if(!args.noRegistry)
+    {
+        command += ` --registry ${args.registry}`;
+    }
+    
+    childProcess.exec(command);
+}
+
 export class VersionManager
 {
     //fields
+    private _originalVersion: string;
     private _content: string;
     private _majorVersion: number;
     private _minorVersion: number;
@@ -126,6 +140,15 @@ export class VersionManager
     UpdateVersion(): VersionManager
     {
         this.ReadFile();
+        this.ComputeVersion();
+        this.WriteFile();
+        
+        return this;
+    }
+    
+    UndoVersion(): VersionManager
+    {
+        this.WriteFile(this._originalVersion);
         
         return this;
     }
@@ -133,7 +156,26 @@ export class VersionManager
     // private methods
     private ComputeVersion(): void
     {
+        if((this._args.pre && this._preVersion) || (!this._args.pre && this._preVersion))
+        {
+            return;
+        }
         
+        if(this._args.buildNumber)
+        {
+            this._buildVersion++;
+        }
+        else if(this._args.majorNumber)
+        {
+            this._majorVersion++;
+            this._minorVersion = 0;
+            this._buildVersion = 0;
+        }
+        else
+        {
+            this._minorVersion++;
+            this._buildVersion = 0;
+        }
     }
     
     private ReadFile(): void
@@ -156,7 +198,6 @@ export class VersionManager
             process.exit(1);
         }
         
-        console.log(parseInt(this.VersionRegex.exec(this._content)[1]));
         try
         {
             var match: RegExpExecArray = this.VersionRegex.exec(this._content);
@@ -166,7 +207,12 @@ export class VersionManager
             this._buildVersion = parseInt(match[3]);
             this._preVersion = !!match[4];
             
-            console.log(this);
+            this._originalVersion = `${match[1]}.${match[2]}.${match[3]}`;
+            
+            if(this._preVersion)
+            {
+                this._originalVersion += match[4];
+            }
         }
         catch(error)
         {
@@ -174,18 +220,36 @@ export class VersionManager
             
             process.exit(1);
         }
-        
-        
-//         var result = data.replace(/string to be replaced/g, 'replacement');
-// 
-//         fs.writeFile(someFile, result, 'utf8', function (err) {
-//         if (err) return console.log(err);
-//         });
-//         });
     }
     
-    private WriteFile(): void
+    private WriteFile(versionOverride?: string): void
     {
+        var version: string = versionOverride;
         
+        if(!versionOverride)
+        {
+            if(this._args.pre)
+            {
+                var timestamp: number = Math.floor(new Date().getTime() / 1000); 
+                version = `${this._majorVersion}.${this._minorVersion}.${this._buildVersion}-pre${timestamp}`;
+            }
+            else
+            {
+                version = `${this._majorVersion}.${this._minorVersion}.${this._buildVersion}`;
+            }
+        }
+        
+        var result: string = this._content.replace(this.VersionRegex, `"version": "${version}"`);
+
+        try
+        {
+            fs.writeFileSync("package.json", result, 'utf8');
+        }
+        catch(error)
+        {
+            console.error(`Unexpected error occured! Original ${error}`);
+            
+            process.exit(1);
+        }
     }
 }
