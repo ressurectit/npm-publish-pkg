@@ -9,9 +9,12 @@
     },
     "scripts":
     {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "watch": "tsc -w",
+        "build": "tsc",
+        "buildAndDeploy": "tsc && echo ok"
     },
-    "keywords": [
+    "keywords": 
+    [
         "publish",
         "ace",
         "node"
