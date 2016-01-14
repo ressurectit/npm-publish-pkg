@@ -1,17 +1,10 @@
 #!/usr/bin/env node
 /*jshint esnext: true */
 
-import * as commandLineArgs from "command-line-args";
-import {IHelpObject} from "../index";
+import {IHelpObject, processArguments} from "../index";
 
-var cli = commandLineArgs(
-[
-    { name: "help", alias: "h", type: Boolean, description: "Displays help for this command line tool"}
-]);
+var args: IHelpObject = processArguments();
 
-var args: IHelpObject = <IHelpObject>cli.parse();
+console.log(args);
 
-if(args.help === true)
-{
-   console.log(cli.getUsage());
-}
+

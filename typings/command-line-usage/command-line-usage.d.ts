@@ -18,14 +18,14 @@ declare type TextBlock = string|string[]|Object[]|Object;
 
 interface IUsageOptions
 {
-    header: TextBlock;
-    title: string;
-    description: TextBlock;
-    synopsis: TextBlock;
-    groups: Object;
-    examples: TextBlock;
-    footer: TextBlock;
-    hide: string|string[]; 
+    header?: TextBlock;
+    title?: string;
+    description?: TextBlock;
+    synopsis?: TextBlock;
+    groups?: Object;
+    examples?: TextBlock;
+    footer?: TextBlock;
+    hide?: string|string[]; 
 }
 
 declare module "command-line-usage" 
