@@ -1,0 +1,26 @@
+{
+    "name": "npm-publish-package",
+    "version": "1.0.0",
+    "description": "NodeJs command line tool for deploying packages to ACE repository",
+    "main": "index.js",
+    "bin":
+    {
+        "test-module-exec": "bin/npm-publish-package.js"
+    },
+    "scripts":
+    {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "publish",
+        "ace",
+        "node"
+    ],
+    "author": "Marek Bukovsky <marek.bukovsky@asseco-ce.com>",
+    "license": "ISC",
+    "preferGlobal": "true",
+    "dependencies":
+    {
+        "command-line-args": "^2.1.4"
+    }
+}
