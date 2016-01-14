@@ -7,7 +7,8 @@ var args: IHelpObject = processArguments();
 var versionManager: VersionManager = new VersionManager(args);
 
 versionManager.TestPackageJsonExistance()
-    .CheckVersionArgsConflict();
+    .CheckVersionArgsConflict()
+    .UpdateVersion();
 
 
 

@@ -72,10 +72,25 @@ export function processArguments(): IHelpObject
 
 export class VersionManager
 {
+    //fields
+    private _content: string;
+    private _majorVersion: number;
+    private _minorVersion: number;
+    private _buildVersion: number;
+    private _preVersion: boolean;
+    
+    // private properties
+    private get VersionRegex(): RegExp
+    {
+        return /"version":\s?"(\d+)\.(\d+)\.(\d+)(-\w+)?"/g;
+    }
+    
+    // constructor
     constructor(private _args: IHelpObject)
     {
     }
     
+    // public methods
     TestPackageJsonExistance(): VersionManager
     {
         try 
@@ -106,5 +121,71 @@ export class VersionManager
         }
         
         return this;
+    }
+    
+    UpdateVersion(): VersionManager
+    {
+        this.ReadFile();
+        
+        return this;
+    }
+    
+    // private methods
+    private ComputeVersion(): void
+    {
+        
+    }
+    
+    private ReadFile(): void
+    {
+        try
+        {
+            this._content = fs.readFileSync("package.json", 'utf8');
+        }
+        catch(error)
+        {
+            console.error(`Unexpected error occured! Original ${error}`);
+            
+            process.exit(1);
+        }
+        
+        if(!this.VersionRegex.test(this._content))
+        {
+            console.error(`Unable to obtain version from package.json, probably bad syntax. Should be: "version": "1.0.0"`);
+            
+            process.exit(1);
+        }
+        
+        console.log(parseInt(this.VersionRegex.exec(this._content)[1]));
+        try
+        {
+            var match: RegExpExecArray = this.VersionRegex.exec(this._content);
+            
+            this._majorVersion = parseInt(match[1]);
+            this._minorVersion = parseInt(match[2]);
+            this._buildVersion = parseInt(match[3]);
+            this._preVersion = !!match[4];
+            
+            console.log(this);
+        }
+        catch(error)
+        {
+            console.error(`Unable to parse version number! Original ${error}`);
+            
+            process.exit(1);
+        }
+        
+        
+//         var result = data.replace(/string to be replaced/g, 'replacement');
+// 
+//         fs.writeFile(someFile, result, 'utf8', function (err) {
+//         if (err) return console.log(err);
+//         });
+//         });
+    }
+    
+    private WriteFile(): void
+    {
+        
     }
 }
