@@ -12,7 +12,7 @@ After global installation (with proper configuration of npm registry):
 you can use following to display help:
 `npp -h`
 
-...
+```
 npm-publish-package (npp)
 
   Application used for publishing packages into npm repository, with auto version increment.
@@ -38,5 +38,5 @@ Examples
   > npp -b                        Deploys package to npm default repository and increments build version number. i.e. 1.1.0 => 1.1.1
   > npp -m                        Deploys package to npm default repository and increments major version number. i.e. 1.1.0 => 2.0.0
   > npp -v "3.0.0"                Deploys package to npm default repository and sets specific version. i.e. 1.1.0 => 3.0.0
-... 
+``` 
 
