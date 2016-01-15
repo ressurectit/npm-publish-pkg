@@ -10,6 +10,7 @@ export interface IHelpObject
     buildNumber?: boolean;
     majorNumber?: boolean;
     noRegistry?: boolean;
+    specificVersion?: string;
 }
 
 export function processArguments(): IHelpObject
@@ -21,7 +22,8 @@ export function processArguments(): IHelpObject
         { name: "pre", alias: "p", type: Boolean, description: "Indication that version should be set to prerelease version." },
         { name: "buildNumber", alias: "b", type: Boolean, description: "Indicates that build number of version should be incremented." },
         { name: "majorNumber", alias: "m", type: Boolean, description: "Indicates that major number of version should be incremented." },
-        { name: "noRegistry", alias: "n", type: Boolean, description: "Indicates that npm publish will be called without registry argument." }
+        { name: "noRegistry", alias: "n", type: Boolean, description: "Indicates that npm publish will be called without registry argument." },
+        { name: "specificVersion", alias: "v", type: String, description: "Specific version that is going to be set. If this is set overrides any other version parameter.", typeLabel: "<version>" }
     ]);
 
     var args: IHelpObject = <IHelpObject>cli.parse();
@@ -30,38 +32,42 @@ export function processArguments(): IHelpObject
     {
         console.log(cli.getUsage(
         {
-            title: "npm-publish-package",
+            title: "npm-publish-package (npp)",
             description: "Application used for publishing packages into npm repository, with auto version increment.",
             examples: 
             [
                 {
-                    example: "> npm-publish-package",
+                    example: "> npp",
                     description: "Deploys package to npm default repository and increases minor version number. i.e. 1.1.2 => 1.2.0"
                 },
                 {
-                    example: '> npm-publish-package -r "http://registryUrl"',
+                    example: '> npp -r "http://registryUrl"',
                     description: 'Deploys package to npm "http://registryUrl" repository and increases minor version number. i.e. 1.1.2 => 1.2.0'
                 },
                 {
-                    example: '> npm-publish-package -n',
+                    example: '> npp -n',
                     description: 'Deploys package to npm repository set in package.json and increases minor version number or error will occur. i.e. 1.1.2 => 1.2.0'
                 },
                 {
-                    example: '> npm-publish-package -p',
+                    example: '> npp -p',
                     description: 'Deploys package to npm default repository and sets version as prerelease version. i.e. 1.1.2 => 1.2.0-pre123123123'
                 },
                 {
-                    example: '> npm-publish-package -p -b',
+                    example: '> npp -p -b',
                     description: 'Deploys package to npm default repository and sets version as prerelease version. i.e. 1.1.2 => 1.1.3-pre123123123'
                 },
                 {
-                    example: '> npm-publish-package -b',
+                    example: '> npp -b',
                     description: 'Deploys package to npm default repository and increments build version number. i.e. 1.1.0 => 1.1.1'
                 },
                 {
-                    example: '> npm-publish-package -m',
+                    example: '> npp -m',
                     description: 'Deploys package to npm default repository and increments major version number. i.e. 1.1.0 => 2.0.0'
                 },
+                {
+                    example: '> npp -v "3.0.0"',
+                    description: 'Deploys package to npm default repository and sets specific version. i.e. 1.1.0 => 3.0.0'
+                }
             ]
         }));
     
@@ -80,7 +86,7 @@ export function publishPackage(args: IHelpObject): void
         command += ` --registry ${args.registry}`;
     }
     
-    childProcess.exec(command);
+    childProcess.execSync(command);
 }
 
 export class VersionManager
@@ -141,7 +147,7 @@ export class VersionManager
     {
         this.ReadFile();
         this.ComputeVersion();
-        this.WriteFile();
+        this.WriteFile(this._args.specificVersion);
         
         return this;
     }

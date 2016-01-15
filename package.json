@@ -5,13 +5,16 @@
     "main": "index.js",
     "bin":
     {
-        "test-module-exec": "bin/npm-publish-package.js"
+        "npp": "bin/npm-publish-package.js"
     },
     "scripts":
     {
         "watch": "tsc -w",
         "build": "tsc",
-        "buildAndDeploy": "tsc && echo ok"
+        "buildAndDeploy": "tsc && npm publish",
+        "buildAndInstall": "tsc && npm install -g",
+        "uninstall": "npm uninstall -g",
+        "unpublish": "npm unpublish npm-publish-package --registry http://172.24.58.11/content/repositories/ace_npm/"
     },
     "keywords": 
     [
