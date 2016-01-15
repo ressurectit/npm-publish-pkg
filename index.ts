@@ -17,7 +17,7 @@ export function processArguments(): IHelpObject
     var cli = commandLineArgs(
     [
         { name: "help", alias: "h", type: Boolean, description: "Displays help for this command line tool." },
-        { name: "registry", alias: "r", type: String, description: "Displays help for this command line tool.", defaultValue: "http://url", typeLabel: "<url>" },
+        { name: "registry", alias: "r", type: String, description: "Displays help for this command line tool.", defaultValue: "http://172.24.58.11/content/repositories/ace_npm/", typeLabel: "<url>" },
         { name: "pre", alias: "p", type: Boolean, description: "Indication that version should be set to prerelease version." },
         { name: "buildNumber", alias: "b", type: Boolean, description: "Indicates that build number of version should be incremented." },
         { name: "majorNumber", alias: "m", type: Boolean, description: "Indicates that major number of version should be incremented." },

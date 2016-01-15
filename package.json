@@ -19,6 +19,10 @@
         "ace",
         "node"
     ],
+    "publishConfig": 
+    {
+        "registry": "http://172.24.58.11/content/repositories/ace_npm/"
+    },
     "author": "Marek Bukovsky <marek.bukovsky@asseco-ce.com>",
     "license": "ISC",
     "preferGlobal": "true",
