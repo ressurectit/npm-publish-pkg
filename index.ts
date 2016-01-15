@@ -9,8 +9,8 @@ export interface IHelpObject
     pre?: boolean;
     buildNumber?: boolean;
     majorNumber?: boolean;
-    noRegistry?: boolean;
     specificVersion?: string;
+    targetTag?: string;
 }
 
 export function processArguments(): IHelpObject
@@ -18,12 +18,12 @@ export function processArguments(): IHelpObject
     var cli = commandLineArgs(
     [
         { name: "help", alias: "h", type: Boolean, description: "Displays help for this command line tool." },
-        { name: "registry", alias: "r", type: String, description: "Displays help for this command line tool.", defaultValue: "http://172.24.58.11/content/repositories/ace_npm/", typeLabel: "<url>" },
+        { name: "registry", alias: "r", type: String, description: "Npm registry (repository) url address.", typeLabel: "<url>" },
         { name: "pre", alias: "p", type: Boolean, description: "Indication that version should be set to prerelease version." },
         { name: "buildNumber", alias: "b", type: Boolean, description: "Indicates that build number of version should be incremented." },
         { name: "majorNumber", alias: "m", type: Boolean, description: "Indicates that major number of version should be incremented." },
-        { name: "noRegistry", alias: "n", type: Boolean, description: "Indicates that npm publish will be called without registry argument." },
-        { name: "specificVersion", alias: "v", type: String, description: "Specific version that is going to be set. If this is set overrides any other version parameter.", typeLabel: "<version>" }
+        { name: "specificVersion", alias: "v", type: String, description: "Specific version that is going to be set. If this is set overrides any other version parameter.", typeLabel: "<version>" },
+        { name: "targetTag", alias: "t", type: String, description: "Tag that will be assigned to published package. If not specified 'latest' is used for normal version and 'pre' is used for prerelease version.", typeLabel: "<tag>" }
     ]);
 
     var args: IHelpObject = <IHelpObject>cli.parse();
@@ -38,35 +38,35 @@ export function processArguments(): IHelpObject
             [
                 {
                     example: "> npp",
-                    description: "Deploys package to npm default repository and increases minor version number. i.e. 1.1.2 => 1.2.0"
+                    description: 'Deploys package to npm default repository and increases minor version number. i.e. 1.1.2 => 1.2.0 with tag "latest"'
                 },
                 {
                     example: '> npp -r "http://registryUrl"',
-                    description: 'Deploys package to npm "http://registryUrl" repository and increases minor version number. i.e. 1.1.2 => 1.2.0'
-                },
-                {
-                    example: '> npp -n',
-                    description: 'Deploys package to npm repository set in package.json and increases minor version number or error will occur. i.e. 1.1.2 => 1.2.0'
+                    description: 'Deploys package to npm "http://registryUrl" repository and increases minor version number. i.e. 1.1.2 => 1.2.0  with tag "latest"'
                 },
                 {
                     example: '> npp -p',
-                    description: 'Deploys package to npm default repository and sets version as prerelease version. i.e. 1.1.2 => 1.2.0-pre123123123'
+                    description: 'Deploys package to npm default repository and sets version as prerelease version. i.e. 1.1.2 => 1.2.0-pre123123123  with tag "pre"'
                 },
                 {
                     example: '> npp -p -b',
-                    description: 'Deploys package to npm default repository and sets version as prerelease version. i.e. 1.1.2 => 1.1.3-pre123123123'
+                    description: 'Deploys package to npm default repository and sets version as prerelease version. i.e. 1.1.2 => 1.1.3-pre123123123  with tag "pre"'
                 },
                 {
                     example: '> npp -b',
-                    description: 'Deploys package to npm default repository and increments build version number. i.e. 1.1.0 => 1.1.1'
+                    description: 'Deploys package to npm default repository and increments build version number. i.e. 1.1.0 => 1.1.1  with tag "latest"'
                 },
                 {
                     example: '> npp -m',
-                    description: 'Deploys package to npm default repository and increments major version number. i.e. 1.1.0 => 2.0.0'
+                    description: 'Deploys package to npm default repository and increments major version number. i.e. 1.1.0 => 2.0.0  with tag "latest"'
                 },
                 {
                     example: '> npp -v "3.0.0"',
-                    description: 'Deploys package to npm default repository and sets specific version. i.e. 1.1.0 => 3.0.0'
+                    description: 'Deploys package to npm default repository and sets specific version. i.e. 1.1.0 => 3.0.0  with tag "latest"'
+                },
+                {
+                    example: '> npp -t "beta"',
+                    description: 'Deploys package to npm default repository and increases minor version number. i.e. 1.1.2 => 1.2.0 with tag "beta"'
                 }
             ]
         }));
@@ -81,9 +81,21 @@ export function publishPackage(args: IHelpObject): void
 {
     var command: string = "npm publish";
     
-    if(!args.noRegistry)
+    if(args.registry)
     {
         command += ` --registry ${args.registry}`;
+    }
+    
+    if(args.targetTag || args.pre)
+    {
+        if(args.targetTag)
+        {
+            command += ` --tag ${args.targetTag}`;
+        }
+        else
+        {
+            command += ` --tag "pre"`;
+        }
     }
     
     childProcess.execSync(command);

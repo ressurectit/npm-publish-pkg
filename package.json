@@ -14,7 +14,7 @@
         "buildAndDeploy": "tsc && npm publish",
         "buildAndInstall": "tsc && npm install -g",
         "uninstall": "npm uninstall -g",
-        "unpublish": "npm unpublish npm-publish-package --registry http://172.24.58.11/content/repositories/ace_npm/"
+        "unpublish": "npm unpublish npm-publish-package"
     },
     "keywords": 
     [
@@ -22,10 +22,6 @@
         "ace",
         "node"
     ],
-    "publishConfig": 
-    {
-        "registry": "http://172.24.58.11/content/repositories/ace_npm/"
-    },
     "author": "Marek Bukovsky <marek.bukovsky@asseco-ce.com>",
     "license": "ISC",
     "preferGlobal": "true",
