@@ -1,35 +1,67 @@
-interface IOptionDefinition
+declare module CommandLineUsageModule
 {
-    /**
-     * Name of argument in command line
-     */
-    name: string;
-    type?: Function;
-    alias?: string;
-    multiple?: boolean;
-    defaultOption?: boolean;
-    defaultValue?: any;
-    group?: string|string[];
-    description?: string;
-    typeLabel?: string;
-}
+    interface IOptionDefinition
+    {
+        /**
+         * Name of argument in command line
+         */
+        name: string;
+        
+        /**
+         * Type functions argument (used as constructor) 
+         */
+        type?: Function;
+        
+        /**
+         * Short name of argument in command line
+         */
+        alias?: string;
+        
+        /**
+         * Indication that multiple occurencies of argument can be used in command line
+         */
+        multiple?: boolean;
+        
+        /**
+         * Indication that argument represented by this definition can be used as default option (without parameter name)
+         */
+        defaultOption?: boolean;
+        
+        /**
+         * Default value that is assigned to argument if not specified in command line
+         */
+        defaultValue?: any;
+        
+        /**
+         * Used for grouping of arguments and represents name of group
+         */
+        group?: string|string[];
+        
+        /**
+         * Description of argument used when displayed as help
+         */
+        description?: string;
+        
+        /**
+         * Label for type of argument used when displayed as help
+         */
+        typeLabel?: string;
+    }
 
-declare type TextBlock = string|string[]|Object[]|Object;
+    type TextBlock = string|string[]|Object[]|Object;
 
-interface IUsageOptions
-{
-    header?: TextBlock;
-    title?: string;
-    description?: TextBlock;
-    synopsis?: TextBlock;
-    groups?: Object;
-    examples?: TextBlock;
-    footer?: TextBlock;
-    hide?: string|string[]; 
-}
-
-declare module "command-line-usage" 
-{
+    interface IUsageOptions
+    {
+        header?: TextBlock;
+        title?: string;
+        description?: TextBlock;
+        synopsis?: TextBlock;
+        groups?: Object;
+        examples?: TextBlock;
+        footer?: TextBlock;
+        hide?: string|string[]; 
+    }
+    
     interface ICommandLineUsageStatic
     {
         /**
@@ -40,7 +72,10 @@ declare module "command-line-usage"
          */
         (definitions: IOptionDefinition[], options: IUsageOptions): string;
     }
-    
-    var _tmp: ICommandLineUsageStatic;
+}
+
+declare module "command-line-usage" 
+{
+    var _tmp: CommandLineUsageModule.ICommandLineUsageStatic;
     export = _tmp;
 }

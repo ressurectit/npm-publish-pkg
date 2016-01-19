@@ -1,6 +1,6 @@
 /// <reference path="../command-line-usage/command-line-usage.d.ts" />
 
-declare module "command-line-args" 
+declare module CommandLineArgsModule
 {
     interface ICommandLineArgs
     {
@@ -13,17 +13,25 @@ declare module "command-line-args"
         
         /**
          * Generates a usage guide.
-         * @param  {any} options? TODO not finished this yet
+         * @param  {CommandLineUsageModule.IUsageOptions} options? Options used for displaying help 
          * @returns string
          */
-        getUsage(options?: IUsageOptions): string;
+        getUsage(options?: CommandLineUsageModule.IUsageOptions): string;
     }
     
     interface ICommandLineArgsStatic
     {
-        (definitions: IOptionDefinition[]): ICommandLineArgs;
+        /**
+         * Constructs command line parsing object
+         * @param  {CommandLineUsageModule.IOptionDefinition[]} definitions Definitions that represents args from command line
+         * @returns ICommandLineArgs
+         */
+        (definitions: CommandLineUsageModule.IOptionDefinition[]): ICommandLineArgs;
     }
-    
-    var _tmp: ICommandLineArgsStatic;
+}
+
+declare module "command-line-args"
+{
+    var _tmp: CommandLineArgsModule.ICommandLineArgsStatic;
     export = _tmp;
 }
