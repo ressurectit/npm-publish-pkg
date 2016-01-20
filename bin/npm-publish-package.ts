@@ -13,6 +13,15 @@ versionManager.TestPackageJsonExistance()
 try
 {
     publishPackage(args);
+    
+    if(args.dryRun)
+    {
+        console.log("Dry run finished successfuly.");
+    }
+    else
+    {
+        console.log("Package was published successfuly.");
+    }
 }
 catch(error)
 {

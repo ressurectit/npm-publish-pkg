@@ -6,7 +6,7 @@ declare module SemVerModule {
     /**
      * Return the version incremented by the release type (major, minor, patch, or prerelease), or null if it's not valid.
      */
-    function inc(v: string, release: string, suffix?: string): string;
+    function inc(v: string, release: string, loose?:string|boolean, identifier?:string): string;
 
     // Comparison
     /**

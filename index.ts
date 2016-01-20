@@ -13,6 +13,7 @@ export interface IHelpObject
     specificVersion?: string;
     targetTag?: string;
     preReleaseSuffix?: string;
+    dryRun?: boolean;
 }
 
 export function processArguments(): IHelpObject
@@ -26,7 +27,8 @@ export function processArguments(): IHelpObject
         { name: "majorNumber", alias: "m", type: Boolean, description: "Indicates that major number of version should be incremented." },
         { name: "specificVersion", alias: "v", type: String, description: "Specific version that is going to be set. If this is set overrides any other version parameter.", typeLabel: "<version>" },
         { name: "targetTag", alias: "t", type: String, description: "Tag that will be assigned to published package. If not specified 'latest' is used for normal version and 'pre' is used for prerelease version.", typeLabel: "<tag>" },
-        { name: "preReleaseSuffix", alias: "s", type: String, description: "Suffix that will be added to version number. If not specified 'pre' is used. It is not used without 'pre' parameter.", defaultValue: "pre", typeLabel: "<preReleaseSuffix>"}
+        { name: "preReleaseSuffix", alias: "s", type: String, description: "Suffix that will be added to version number. If not specified 'pre' is used. It is not used without 'pre' parameter.", defaultValue: "pre", typeLabel: "<preReleaseSuffix>"},
+        { name: "dryRun", alias: "d", type: Boolean, description: "Runs script as dry run. Displaying expected version and expected command for publising"}
     ]);
 
     var args: IHelpObject = <IHelpObject>cli.parse();
@@ -105,8 +107,14 @@ export function publishPackage(args: IHelpObject): void
         }
     }
     
-    console.log(command);
-    //childProcess.execSync(command);
+    console.log(`Publishing command is '${command}'`);
+    
+    if(args.dryRun)
+    {
+        return;
+    }
+    
+    childProcess.execSync(command);
 }
 
 export class VersionManager
@@ -137,7 +145,7 @@ export class VersionManager
             {
                 console.error("'package.json' is not a file!");
                 
-                process.exit();
+                process.exit(1);
             }
         } catch (error) 
         {
@@ -182,7 +190,7 @@ export class VersionManager
     {
         if(this._args.pre && this._preVersion)
         {
-            this._version = semver.inc(this._version, "prerelease", this._args.preReleaseSuffix)
+            this._version = semver.inc(this._version, "pre", this._args.preReleaseSuffix)
             
             return;
         }
@@ -261,8 +269,12 @@ export class VersionManager
             version = this._version;
         }
         
-        console.log(version);
-        process.exit(1);
+        console.log(`Next version will be ${version}`);
+        
+        if(this._args.dryRun)
+        {
+            return;
+        }
         
         var result: string = this._content.replace(this.VersionRegex, `"version": "${version}"`);
 
