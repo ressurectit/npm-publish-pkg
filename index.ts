@@ -27,7 +27,7 @@ export function processArguments(): IHelpObject
         { name: "majorNumber", alias: "m", type: Boolean, description: "Indicates that major number of version should be incremented." },
         { name: "specificVersion", alias: "v", type: String, description: "Specific version that is going to be set. If this is set overrides any other version parameter.", typeLabel: "<version>" },
         { name: "targetTag", alias: "t", type: String, description: "Tag that will be assigned to published package. If not specified 'latest' is used for normal version and 'pre' is used for prerelease version.", typeLabel: "<tag>" },
-        { name: "preReleaseSuffix", alias: "s", type: String, description: "Suffix that will be added to version number. If not specified 'pre' is used. It is not used without 'pre' parameter.", defaultValue: "pre", typeLabel: "<preReleaseSuffix>"},
+        { name: "preReleaseSuffix", alias: "s", type: String, description: "Suffix that will be added to version number. If not specified 'pre' is used. It is not used without 'pre' parameter.", defaultValue: "pre", typeLabel: "<suffix>"},
         { name: "dryRun", alias: "d", type: Boolean, description: "Runs script as dry run. Displaying expected version and expected command for publising"}
     ]);
 
