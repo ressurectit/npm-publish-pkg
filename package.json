@@ -1,29 +1,38 @@
 {
-  "name": "npm-publish-package",
-  "version": "1.2.0",
-  "description": "NodeJs command line tool for deploying packages to ACE repository",
-  "main": "index.js",
-  "bin": {
-    "npp": "bin/npm-publish-package.js"
-  },
-  "scripts": {
-    "watch": "tsc -w",
-    "build": "tsc",
-    "buildAndDeploy": "tsc && npm publish",
-    "buildAndInstall": "tsc && npm install -g",
-    "uninstall": "npm uninstall -g",
-    "unpublish": "npm unpublish npm-publish-package"
-  },
-  "keywords": [
-    "publish",
-    "ace",
-    "node"
-  ],
-  "author": "Marek Bukovsky <marek.bukovsky@asseco-ce.com>",
-  "license": "ISC",
-  "preferGlobal": "true",
-  "dependencies": {
-    "command-line-args": "^2.1.4",
-    "semver": "^5.1.0"
-  }
+    "name": "npm-publish-package",
+    "version": "1.2.0",
+    "description": "NodeJs command line tool for deploying packages to ACE repository",
+    "main": "index.js",
+    "bin":
+    {
+        "npp": "bin/npm-publish-package.js"
+    },
+    "scripts":
+    {
+        "build": "tsc",
+        "build:w": "tsc -w",
+        "clean": "rimraf ./*.d.ts ./*.js ./*.map ./*.log ./bin/*.d.ts ./bin/*.js ./bin/*.map",
+        "buildAndDeploy": "npm run build && npm publish && npm run clean",
+        "buildAndInstall": "npm run build && npm install -g && npm run clean",
+        "uninstall": "npm uninstall -g",
+        "unpublish": "npm unpublish npm-publish-package --force"
+    },
+    "keywords": [
+        "publish",
+        "ace",
+        "node"
+    ],
+    "author": "Marek Bukovsky <marek.bukovsky@asseco-ce.com>",
+    "license": "ISC",
+    "preferGlobal": "true",
+    "dependencies":
+    {
+        "command-line-args": "^2.1.4",
+        "semver": "^5.1.0"
+    },
+    "devDependencies":
+    {
+        "rimraf": "~2.5.1",
+        "typescript": "^1.7.5"
+    }
 }

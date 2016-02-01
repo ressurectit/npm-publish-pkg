@@ -1,3 +1,8 @@
+.vscode
+.jsbeautifyrc
+tsconfig.json
+tsd.json
+
 *.ts
 !*.d.ts
 *.map
