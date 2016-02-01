@@ -12,10 +12,8 @@
         "build": "tsc",
         "build:w": "tsc -w",
         "clean": "rimraf ./*.d.ts ./*.js ./*.map ./*.log ./bin/*.d.ts ./bin/*.js ./bin/*.map",
-        "buildAndDeploy": "npm run build && npm publish && npm run clean",
-        "buildAndInstall": "npm run build && npm install -g && npm run clean",
-        "uninstall": "npm uninstall -g",
-        "unpublish": "npm unpublish npm-publish-package --force"
+        "prepublish": "npm run build",
+        "postpublish": "npm run clean"
     },
     "keywords": [
         "publish",
