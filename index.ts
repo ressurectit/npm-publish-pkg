@@ -119,24 +119,24 @@ export function publishPackage(args: IHelpObject): void
 
 export class VersionManager
 {
-    //fields
+    //######################### private fields #########################
     private _originalVersion: string;
     private _content: string;
     private _version: string;
     private _preVersion: boolean;
     
-    // private properties
+    //######################### private properties #########################
     private get VersionRegex(): RegExp
     {
         return /"version":\s?"(\d+\.\d+\.\d+(-(?:\w|\.)+)?)"/g;
     }
     
-    // constructor
+    //######################### constructor #########################
     constructor(private _args: IHelpObject)
     {
     }
     
-    // public methods
+    //######################### public methods #########################
     TestPackageJsonExistance(): VersionManager
     {
         try 
@@ -185,7 +185,7 @@ export class VersionManager
         return this;
     }
     
-    // private methods
+    //######################### private methods #########################
     private ComputeVersion(): void
     {
         if(this._args.pre && this._preVersion)
