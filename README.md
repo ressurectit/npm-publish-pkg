@@ -1,11 +1,11 @@
 # npm-publish-package
 Script for publishing npm to Nexus repository
 
-##Version 1.2.0 
+## Version 1.2.0 
 
-####Help will be done later
+#### Help will be done later
 
-####Command line usage
+#### Command line usage
 
 After global installation (with proper configuration of npm registry):
 `npm install -g npm-publish-package`
