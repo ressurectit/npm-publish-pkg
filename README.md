@@ -20,15 +20,15 @@ npm-publish-package (npp)
 Options
 
   -h, --help                                  Displays help for this command line tool.
-  -r, --registry <url>                        Npm registry (repository) url address.
+  -r, --registry &lt;url&gt;                        Npm registry (repository) url address.
   -p, --pre                                   Indication that version should be set to prerelease version.
   -b, --buildNumber                           Indicates that build number of version should be incremented.
   -m, --majorNumber                           Indicates that major number of version should be incremented.
-  -v, --specificVersion <version>             Specific version that is going to be set. If this is set overrides any other
+  -v, --specificVersion &lt;version&gt;             Specific version that is going to be set. If this is set overrides any other
                                               version parameter.
-  -t, --targetTag <tag>                       Tag that will be assigned to published package. If not specified 'latest' is
+  -t, --targetTag &lt;tag&gt;                       Tag that will be assigned to published package. If not specified 'latest' is
                                               used for normal version and 'pre' is used for prerelease version.
-  -s, --preReleaseSuffix <preReleaseSuffix>   Suffix that will be added to version number. If not specified 'pre' is used.
+  -s, --preReleaseSuffix &lt;preReleaseSuffix&gt;   Suffix that will be added to version number. If not specified 'pre' is used.
                                               It is not used without 'pre' parameter.
   -d, --dryRun                                Runs script as dry run. Displaying expected version and expected command for
                                               publising
