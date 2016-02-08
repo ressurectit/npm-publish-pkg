@@ -12,7 +12,7 @@ After global installation (with proper configuration of npm registry):
 you can use following to display help:
 `npp -h`
 
-```
+```nocode
 npm-publish-package (npp)
 
   Application used for publishing packages into npm repository, with auto version increment.
