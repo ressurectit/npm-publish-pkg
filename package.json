@@ -1,7 +1,7 @@
 {
-    "name": "npm-publish-package",
+    "name": "npm-publish-pkg",
     "version": "1.2.0",
-    "description": "NodeJs command line tool for deploying packages to ACE repository",
+    "description": "NodeJs command line tool for deploying packages to NPM repository",
     "main": "index.js",
     "bin":
     {
@@ -18,10 +18,10 @@
     },
     "keywords": [
         "publish",
-        "ace",
+        "npm",
         "node"
     ],
-    "author": "Marek Bukovsky <marek.bukovsky@asseco-ce.com>",
+    "author": "kukjevov",
     "license": "ISC",
     "preferGlobal": true,
     "dependencies":
